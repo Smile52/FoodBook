@@ -1,13 +1,17 @@
 package com.smile.food.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.smile.food.impl.HelloServiceImpl;
 import com.smile.food.service.HelloService;
+import com.smile.food.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.HashMap;
 
 @Controller
@@ -22,7 +26,14 @@ public class HelloController {
     public String index(HashMap<String, Object> map){
         System.out.println("访问了");
         map.put("hello","Food");
-        return "/index";
+        String token ="";
+        Date date=new Date(System.currentTimeMillis()+ JwtUtils.EXPIRE_TIME);
+        Algorithm algorithm=Algorithm.HMAC256(JwtUtils.TOKEN_SECRET);
+        token= JWT.create().withClaim("userName","张三").withClaim("userId","100001")
+                .withExpiresAt(date)
+                .sign(algorithm);
+        System.out.println("token: "+token);
+        return "index";
     }
 
     @RequestMapping("/hello")

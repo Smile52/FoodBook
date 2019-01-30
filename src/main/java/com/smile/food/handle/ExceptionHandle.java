@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 异常捕获类
+ */
 @ControllerAdvice
 public class ExceptionHandle {
     private final static Logger logger = LoggerFactory.getLogger(ExceptionHandle.class);
@@ -20,6 +23,7 @@ public class ExceptionHandle {
             FoodException foodException= (FoodException) e;
             return ResultUtils.error(foodException.getCode(), foodException.getMessage());
         } else {
+
             logger.error("系统异常{}", e.getMessage());
             return ResultUtils.error(99, e.getMessage());
         }

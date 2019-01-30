@@ -75,7 +75,29 @@
     FROM
     <include refid="BASE_TABLE"/>
   </select>
+  <select id="findListByPage"  resultType="com.smile.food.model.User">
+    select * from t_user order by user_id  limit ${currIndex} , ${pageSize}
 
+  </select>
 
+  <insert id="insertToken" parameterType="com.smile.food.model.TokenModel">
+    insert  into t_token(user_id, token)
+    values (#{user_id,jdbcType=INTEGER},#{token ,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateToken">
+    update t_token set token = #{token} where user_id= #{user_id}
+  </update>
+
+  <select id="findPwdByPhone" resultType="com.smile.food.model.User">
+    select * from t_user where phone= #{phone}
+  </select>
+
+  <select id="findUserById" resultType="com.smile.food.model.User">
+    select * from t_user where user_id= #{userId}
+  </select>
+
+  <select id="findTokenByUserId" resultType="java.lang.String">
+    SELECT token from t_token where user_id =#{userId}
+  </select>
 
 </mapper>

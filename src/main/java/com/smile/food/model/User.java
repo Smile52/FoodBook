@@ -1,10 +1,13 @@
 package com.smile.food.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class User {
-    private Integer userId;
+    private Integer user_id;
 
     private String username;
 
+    @JSONField(serialize=false)
     private String password;
 
     private Integer sex;
@@ -13,13 +16,9 @@ public class User {
 
     private String phone;
 
-    public Integer getUserId() {
-        return userId;
-    }
+    private String token;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+
 
     public String getUsername() {
         return username;
@@ -59,5 +58,21 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
