@@ -23,8 +23,8 @@ public class ExceptionHandle {
             FoodException foodException= (FoodException) e;
             return ResultUtils.error(foodException.getCode(), foodException.getMessage());
         } else {
-
-            logger.error("系统异常{}", e.getMessage());
+            System.out.println("异常 "+e.toString());
+            logger.error("系统异常1{}", e.getMessage());
             return ResultUtils.error(99, e.getMessage());
         }
     }

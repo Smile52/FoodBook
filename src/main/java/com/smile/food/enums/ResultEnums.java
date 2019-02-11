@@ -2,6 +2,8 @@ package com.smile.food.enums;
 
 public enum ResultEnums {
     UNKNOW_ERROR(-1, "未知错误"),
+    TOKEN_ERROR(-2,"Token错误"),
+
     SUCCESS(0, "成功");
 
     private Integer code;

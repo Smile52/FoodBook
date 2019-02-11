@@ -99,13 +99,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByToken(String token) {
-        Map<String, Claim> claims = JwtUtils.verifyToken(token);
-        Claim userId = claims.get("userId");
-        int s=userId.asInt();
-        if (null == userId || s==0) {
-            // token 校验失败, 抛出Token验证非法异常
-            throw new FoodException( ResultEnums.UNKNOW_ERROR);
+        int s;
+        try {
+
+            Map<String, Claim> claims = JwtUtils.verifyToken(token);
+
+            Claim userId = claims.get("userId");
+            s=userId.asInt();
+            if (null == userId || s==0) {
+                // token 校验失败, 抛出Token验证非法异常
+                throw new FoodException( ResultEnums.UNKNOW_ERROR);
+            }
+        }catch (Exception e){
+            throw new FoodException(ResultEnums.TOKEN_ERROR);
         }
+
 
         return userMapper.findUserById(s);
 

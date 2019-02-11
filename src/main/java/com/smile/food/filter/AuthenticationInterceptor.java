@@ -33,6 +33,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if(!(handler instanceof HandlerMethod)){
             return true;
         }
+
         HandlerMethod handlerMethod=(HandlerMethod)handler;
         Method method=handlerMethod.getMethod();
         //检查是否有passtoken注释，有则跳过认证
@@ -42,6 +43,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
+
         //检查有没有需要用户权限的注解
         if (method.isAnnotationPresent(UserLoginToken.class)) {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
