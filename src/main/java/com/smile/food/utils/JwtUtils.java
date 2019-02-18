@@ -15,7 +15,7 @@ public class JwtUtils {
     public static final long EXPIRE_TIME=60*1000*60*24*7;
 
 
-    public static final String TOKEN_SECRET="H7o6eNnAbrPx9iPzr9dxEGEneOQAzp11GtJlCoDwn4";
+    public static final String TOKEN_SECRET="H7o6eNnAbrPx9iPzr";
 
     /**
      * 解密Token

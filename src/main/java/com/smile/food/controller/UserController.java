@@ -4,6 +4,7 @@ package com.smile.food.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.smile.food.annotation.UserLoginToken;
+import com.smile.food.entity.FoodInfoEntity;
 import com.smile.food.model.User;
 import com.smile.food.service.UserService;
 import com.smile.food.utils.ResultUtils;
@@ -11,14 +12,17 @@ import org.attoparser.util.TextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.TextUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
  * 用户控制器
  */
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController  {
 
@@ -83,13 +87,55 @@ public class UserController  {
         return ResultUtils.success(user);
     }
 
+    @UserLoginToken
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String admin(){
+        return "admin";
+    }
 
 
+ /*   @PostMapping("/upload")
+    @ResponseBody
+    public Object upload(@RequestParam("file") MultipartFile file ){
+        if (file.isEmpty()) {
+            return ResultUtils.error(99,"文件不存在");
+        }
+        String fileName = file.getOriginalFilename()+".jpg";
+        String filePath = "/Users/yaojiulong/file/imgs/";
+        File dest = new File(filePath + fileName);
 
+        try {
+            file.transferTo(dest);
+            return ResultUtils.success("上传成功");
+        }catch (Exception e){
+            return ResultUtils.error(99,"上传失败");
+        }
 
+    }
+*/
 
+    /**
+     * 多个图片和多个参数上传
+     * @param entity
+     * @return
+     */
+    @PostMapping("/upload")
+    @ResponseBody
+    public Object upload(FoodInfoEntity entity){
+        System.out.println("name "+entity.getName());
+        System.out.println("des "+entity.getDes());
+        MultipartFile[] files = entity.getFile();
+        for (int i = 0; i <files.length ; i++) {
+            System.out.println("file Name "+files[i].getOriginalFilename());
+        }
 
+        return "666";
+    }
 
-
+    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    public String upload() {
+        System.out.println("上传");
+        return "upload";
+    }
 
 }

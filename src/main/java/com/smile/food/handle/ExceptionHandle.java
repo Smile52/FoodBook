@@ -2,6 +2,7 @@ package com.smile.food.handle;
 
 import com.smile.food.domain.BaseResult;
 import com.smile.food.exception.FoodException;
+import com.smile.food.exception.PermissionException;
 import com.smile.food.utils.ResultUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,4 +29,17 @@ public class ExceptionHandle {
             return ResultUtils.error(99, e.getMessage());
         }
     }
+
+    @ExceptionHandler(value = PermissionException.class)
+    public String handle1(Exception e){
+        if (e instanceof PermissionException){
+            return "error";
+
+        }else {
+            return "index";
+        }
+
+    }
+
+
 }

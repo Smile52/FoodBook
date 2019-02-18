@@ -25,7 +25,7 @@ public class HelloController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(HashMap<String, Object> map){
         System.out.println("访问了");
-        map.put("hello","Food");
+        map.put("hello","ff");
         String token ="";
         Date date=new Date(System.currentTimeMillis()+ JwtUtils.EXPIRE_TIME);
         Algorithm algorithm=Algorithm.HMAC256(JwtUtils.TOKEN_SECRET);

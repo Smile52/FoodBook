@@ -62,7 +62,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
                        }
                     }
-                }
+                }else {
+                throw new RuntimeException("401");
+
+            }
         }
 
 

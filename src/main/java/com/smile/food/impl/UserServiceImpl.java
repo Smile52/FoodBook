@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
         PageHelper.startPage(pageNum, pageSize);
         List<User> userList=userMapper.selectUser();
-        PageInfo result=new PageInfo(userList);
+        PageInfo result = new PageInfo(userList);
 
         return result;
     }
@@ -84,8 +84,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-
     @Override
     public int insertToken(TokenModel tokenModel) {
 
@@ -116,7 +114,6 @@ public class UserServiceImpl implements UserService {
 
 
         return userMapper.findUserById(s);
-
 
     }
 
