@@ -4,6 +4,7 @@ package com.smile.food.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.smile.food.annotation.UserLoginToken;
+import com.smile.food.config.FoodConfig;
 import com.smile.food.entity.FoodInfoEntity;
 import com.smile.food.model.User;
 import com.smile.food.service.UserService;
@@ -17,6 +18,7 @@ import org.thymeleaf.util.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,6 +96,7 @@ public class UserController  {
     }
 
 
+
  /*   @PostMapping("/upload")
     @ResponseBody
     public Object upload(@RequestParam("file") MultipartFile file ){
@@ -125,12 +128,23 @@ public class UserController  {
         System.out.println("name "+entity.getName());
         System.out.println("des "+entity.getDes());
         MultipartFile[] files = entity.getFile();
+        List<String> imgs=new ArrayList<>();
         for (int i = 0; i <files.length ; i++) {
             System.out.println("file Name "+files[i].getOriginalFilename());
+            String fileName = files[i].getOriginalFilename();
+            String filePath = FoodConfig.IMAGE_PATH;
+            File dest = new File(filePath + fileName);
+            try {
+                files[i].transferTo(dest);
+                imgs.add(FoodConfig.IMAGE_BASE_URL+fileName);
+            }catch (Exception e){
+                return ResultUtils.error(99,"上传失败");
+            }
         }
 
-        return "666";
+        return ResultUtils.success(imgs);
     }
+
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String upload() {
