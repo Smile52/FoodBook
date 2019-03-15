@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="myBtn">跳转APP</button>
+<script>
+    document.getElementById("myBtn").onclick=function(){displayDate()};
+    function displayDate()
+    {
+        window.location.href="dyjc://host/pathPrefix?data=3";
+
+    }
+</script>
+
+</body>
+</html>

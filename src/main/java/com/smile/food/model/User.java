@@ -2,7 +2,9 @@ package com.smile.food.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private Integer user_id;
 
     private String username;

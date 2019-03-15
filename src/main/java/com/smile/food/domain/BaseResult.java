@@ -1,10 +1,12 @@
 package com.smile.food.domain;
 
+import java.io.Serializable;
+
 /**
  * 返回结果基类
  * @param <T>
  */
-public class BaseResult<T> {
+public class BaseResult<T> implements Serializable {
     private Integer code;
     private String message;
     private T data;

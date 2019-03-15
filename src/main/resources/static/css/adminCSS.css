@@ -1,0 +1,25 @@
+input,button{
+    width: 320px;
+    height: 45px;
+    margin: 0px 8px;
+    border-radius: 10px; /*圆角矩形*/
+    text-indent: 10px; /*里面隐形的字体首行缩进*/
+    margin: 10px auto;
+}
+body{
+    margin: 0px;
+    padding: 0px;
+    background-image: url(../imgs/admin_bg.jpg) ;
+    background-size:cover;   /*图片自由伸缩*/
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;   //不重复
+
+
+}
+a{
+    text-decoration:none;   /*去掉下划线*/
+    color: #808080;
+    font-family: '黑体';
+    font-size: 14px;
+}

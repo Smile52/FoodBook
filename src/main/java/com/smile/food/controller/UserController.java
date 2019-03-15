@@ -11,6 +11,7 @@ import com.smile.food.service.UserService;
 import com.smile.food.utils.ResultUtils;
 import org.attoparser.util.TextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,21 +57,21 @@ public class UserController  {
 
     }
 
+
     @ResponseBody
     @GetMapping("/page/{c}/{num}")
     public Object findListByPage(@PathVariable("c") Integer c, @PathVariable("num") Integer num){
-        List<User> list=userService.findListByPage(c, num);
+        List<User> list = userService.findListByPage(c, num);
         return ResultUtils.success(list);
     }
-
 
     @ResponseBody
     @PostMapping(value = "/login", produces = "application/json;charset=UTF-8")
     public Object login(@RequestBody JSONObject jsonObject){
         System.out.println("入参: " +jsonObject.toJSONString());
-        String phone =jsonObject.getString("phone");
-        String pwd=jsonObject.getString("password");
-        Object o=userService.login(phone,pwd);
+        String phone = jsonObject.getString("phone");
+        String pwd = jsonObject.getString("password");
+        Object o=userService.login(phone, pwd);
         if (o instanceof String){
            ResultUtils.error(99, o.toString());
         }else {
@@ -82,6 +83,7 @@ public class UserController  {
     @UserLoginToken
     @ResponseBody
     @GetMapping("/info")
+    @Cacheable(value = "users")
     public Object getUserInfo(@RequestHeader(value="token") String token){
 
         User user=userService.findUserByToken(token);
@@ -144,7 +146,6 @@ public class UserController  {
 
         return ResultUtils.success(imgs);
     }
-
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String upload() {

@@ -32,7 +32,6 @@ public class HelloController {
         token= JWT.create().withClaim("userName","张三").withClaim("userId","100001")
                 .withExpiresAt(date)
                 .sign(algorithm);
-        System.out.println("token: "+token);
         return "index";
     }
 
@@ -41,5 +40,12 @@ public class HelloController {
     public String hello(){
         return  mHelloService.sayHello();
     }
+
+    @RequestMapping("/toApp")
+    public String toApp(){
+        return "toApp";
+    }
+
+
 
 }
