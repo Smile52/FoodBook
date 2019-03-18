@@ -109,6 +109,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
         return redisCacheConfiguration;
     }
+
     /**
      * RedisTemplate配置
      *
