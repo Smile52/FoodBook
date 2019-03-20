@@ -19,6 +19,8 @@ public class Food {
 
     private String step;
 
+    private String photo;
+
     public Integer getId() {
         return id;
     }
@@ -89,5 +91,77 @@ public class Food {
 
     public void setStep(String step) {
         this.step = step == null ? null : step.trim();
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo == null ? null : photo.trim();
+    }
+
+    /**
+     * 材料类
+     */
+    public static class Material{
+        private String name;//名字
+        private String weight;//重量
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getWeight() {
+            return weight;
+        }
+
+        public void setWeight(String weight) {
+            this.weight = weight;
+        }
+
+        @Override
+        public String toString() {
+            return "Material{" +
+                    "name='" + name + '\'' +
+                    ", weight='" + weight + '\'' +
+                    '}';
+        }
+    }
+
+    /**
+     * 制作步骤
+     */
+    public static class Step{
+        private String des;
+        private String photo;
+
+        public String getDes() {
+            return des;
+        }
+
+        public void setDes(String des) {
+            this.des = des;
+        }
+
+        public String getPhoto() {
+            return photo;
+        }
+
+        public void setPhoto(String photo) {
+            this.photo = photo;
+        }
+
+        @Override
+        public String toString() {
+            return "Step{" +
+                    "des='" + des + '\'' +
+                    ", photo='" + photo + '\'' +
+                    '}';
+        }
     }
 }

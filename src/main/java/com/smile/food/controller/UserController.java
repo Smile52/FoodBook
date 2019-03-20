@@ -71,9 +71,9 @@ public class UserController  {
         System.out.println("入参: " +jsonObject.toJSONString());
         String phone = jsonObject.getString("phone");
         String pwd = jsonObject.getString("password");
-        Object o=userService.login(phone, pwd);
+        Object o = userService.login(phone, pwd);
         if (o instanceof String){
-           ResultUtils.error(99, o.toString());
+            ResultUtils.error(99, o.toString());
         }else {
             return ResultUtils.success(o);
         }
@@ -128,8 +128,8 @@ public class UserController  {
     @ResponseBody
     public Object upload(FoodInfoEntity entity){
         System.out.println("name "+entity.getName());
-        System.out.println("des "+entity.getDes());
-        MultipartFile[] files = entity.getFile();
+        System.out.println("des "+entity.toString());
+        MultipartFile[] files = entity.getFile_step();
         List<String> imgs=new ArrayList<>();
         for (int i = 0; i <files.length ; i++) {
             System.out.println("file Name "+files[i].getOriginalFilename());
@@ -152,5 +152,7 @@ public class UserController  {
         System.out.println("上传");
         return "upload";
     }
+
+
 
 }

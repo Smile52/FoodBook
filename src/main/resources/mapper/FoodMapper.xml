@@ -11,16 +11,17 @@
     <result column="authorid" property="authorid" jdbcType="INTEGER" />
     <result column="material" property="material" jdbcType="VARCHAR" />
     <result column="step" property="step" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insert" parameterType="com.smile.food.model.Food" >
     insert into t_food (id, name, decription, 
       finshtime, difficulty, type, 
-      authorid, material, step
-      )
+      authorid, material, step, 
+      photo)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{decription,jdbcType=VARCHAR}, 
       #{finshtime,jdbcType=VARCHAR}, #{difficulty,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{authorid,jdbcType=INTEGER}, #{material,jdbcType=VARCHAR}, #{step,jdbcType=VARCHAR}
-      )
+      #{authorid,jdbcType=INTEGER}, #{material,jdbcType=VARCHAR}, #{step,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.smile.food.model.Food" >
     insert into t_food
@@ -52,6 +53,9 @@
       <if test="step != null" >
         step,
       </if>
+      <if test="photo != null" >
+        photo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -81,16 +85,14 @@
       <if test="step != null" >
         #{step,jdbcType=VARCHAR},
       </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
+  <select id="findAll" resultType="com.smile.food.model.Food">
+        select * from t_food
 
-  <sql id="BASE_TABLE">
-    t_food
-  </sql>
-
-  <select id="findListByType" resultType="com.smile.food.model.Food">
-    select * from
-    <include refid="BASE_TABLE"/>
-    where type=#{type}
   </select>
+
 </mapper>

@@ -44,9 +44,6 @@ public class RedisConfig extends CachingConfigurerSupport {
     private static final Logger lg = LoggerFactory.getLogger(RedisConfiguration.class);
 
 
-    @Autowired
-    private JedisConnectionFactory jedisConnectionFactory;
-
     @Bean
     public KeyGenerator keyGenerator() {
         return new KeyGenerator() {
@@ -65,18 +62,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-     /*   // 生成一个默认配置，通过config对象即可对缓存进行自定义配置
-        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        // 使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
-        Jackson2JsonRedisSerializer<JSON> serializer = new Jackson2JsonRedisSerializer<JSON>(JSON.class);
-        // 配置序列化
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
-        config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer));
-        config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
-        // 设置缓存的默认过期时间
-        config.entryTtl(Duration.ofSeconds(60L));
-        // 不缓存空值
-        RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(config).build();*/
+
         return new RedisCacheManager(
                 RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),
                 this.getRedisCacheConfigurationWithTtl(60), // 默认策略，未配置的 key 会使用这个
@@ -87,8 +73,8 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     private Map<String, RedisCacheConfiguration> getRedisCacheConfigurationMap() {
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
-        redisCacheConfigurationMap.put("UserInfoList", this.getRedisCacheConfigurationWithTtl(3000));
-        redisCacheConfigurationMap.put("UserInfoListAnother", this.getRedisCacheConfigurationWithTtl(18000));
+        redisCacheConfigurationMap.put("key1", this.getRedisCacheConfigurationWithTtl(3000));
+        redisCacheConfigurationMap.put("key2", this.getRedisCacheConfigurationWithTtl(18000));
 
         return redisCacheConfigurationMap;
     }
@@ -128,6 +114,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         serializer.setObjectMapper(mapper);
         template.setValueSerializer(serializer);
         template.setHashValueSerializer(serializer);
+
         // 使用StringRedisSerializer来序列化和反序列化redis的key值
         template.setKeySerializer(new StringRedisSerializer());
         template.afterPropertiesSet();

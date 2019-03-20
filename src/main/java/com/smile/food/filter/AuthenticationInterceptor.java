@@ -44,7 +44,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             }
         }
 
-
         //检查有没有需要用户权限的注解
         if (method.isAnnotationPresent(UserLoginToken.class)) {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);

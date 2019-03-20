@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="application/javascript">
+        var i=0
+
+        function insert_row() {
+
+
+            i++
+            R = tbl.insertRow()
+            C = R.insertCell()
+            C.innerHTML = "第" + i + "步"
+            C = R.insertCell()
+            C.innerHTML = "<input type='text' name='des_step'>"
+            C = R.insertCell()
+            C.innerHTML = "<input type=file name='file_step'>"
+            C = R.insertCell()
+            C.innerHTML = "<input type='button'  value='删除' onclick='deleteRow(this)'>"
+        }
+
+        function insert_row_m() {
+
+
+            i++
+            R = tbl2.insertRow()
+            C = R.insertCell()
+            C.innerHTML = "第" + i + "个"
+            C = R.insertCell()
+            C.innerHTML = "<input type='text' name='material'>"
+            C = R.insertCell()
+            C.innerHTML = "<input type=text name='weight'>"
+            C = R.insertCell()
+            C.innerHTML = "<input type='button'  value='删除' onclick='deleteRow(this)'>"
+        }
+
+
+    </script>
+</head>
+
+    <form method="post" action="/food/upload" enctype="multipart/form-data">
+    菜名:<input type="text" name="name"><br>
+    描述:<input type="text" name="des"><br>
+    封面图:<input type="file" name="photo"><br>
+
+        类型:<select id="food_type" name="food_type">
+    <option>早餐</option>
+    <option>午餐</option>
+    <option>下午茶</option>
+    <option>晚餐</option>
+    <option>甜点</option>
+    </select>
+        <br>
+        <span>材料</span><br>
+        <input type="button" value="添加" onclick="insert_row_m()">
+
+        <table name='tbl' id="tbl2" border="1" width=100></table>
+    <span>步骤</span><br>
+
+    <input type="button" value="添加" onclick="insert_row()">
+    <table name='tbl' id="tbl" border="1" width=100></table>
+        <input type="submit" value="提交">
+    </form>
+
+</body>
+</html>

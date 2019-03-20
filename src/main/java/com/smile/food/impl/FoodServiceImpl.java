@@ -22,6 +22,11 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
+    public List<Food> findAll() {
+        return mFoodMapper.findAll();
+    }
+
+    @Override
     public List<Food> findListByPage(int currIndex, int pageSize) {
 
         return null;

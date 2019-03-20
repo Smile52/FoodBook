@@ -8,6 +8,8 @@ import java.util.List;
 @Service
 public interface FoodService {
     int addFood(Food food);
+
+    List<Food> findAll();
     List<Food> findListByPage(int currIndex, int pageSize);
 
     List<Food> findListByType(int type);
