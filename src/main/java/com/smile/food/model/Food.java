@@ -1,5 +1,12 @@
 package com.smile.food.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Transient;
+
+import java.io.Serializable;
+import java.util.List;
+
 public class Food {
     private Integer id;
 
@@ -14,12 +21,21 @@ public class Food {
     private Integer type;
 
     private Integer authorid;
+    /**
+     * 转换成json前 忽略下面两个属性
+     */
+    @Transient
+    @JsonIgnore
+    private transient String material;
 
-    private String material;
-
-    private String step;
+    @Transient
+    @JsonIgnore
+    private transient String step;
 
     private String photo;
+
+    private List<Step> steps;
+    private List<Material> materials;
 
     public Integer getId() {
         return id;
@@ -93,6 +109,14 @@ public class Food {
         this.step = step == null ? null : step.trim();
     }
 
+    public List<Material> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<Material> materials) {
+        this.materials = materials;
+    }
+
     public String getPhoto() {
         return photo;
     }
@@ -133,6 +157,14 @@ public class Food {
         }
     }
 
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
+
     /**
      * 制作步骤
      */
@@ -163,5 +195,21 @@ public class Food {
                     ", photo='" + photo + '\'' +
                     '}';
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", decription='" + decription + '\'' +
+                ", finshtime='" + finshtime + '\'' +
+                ", difficulty=" + difficulty +
+                ", type=" + type +
+                ", authorid=" + authorid +
+                ", material='" + material + '\'' +
+                ", photo='" + photo + '\'' +
+                ", steps=" + steps +
+                '}';
     }
 }

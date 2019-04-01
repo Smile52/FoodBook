@@ -21,6 +21,14 @@ public class ResultUtils {
         return result;
     }
 
+    public static final BaseResult success(String msg, Object o){
+        BaseResult result = new BaseResult();
+        result.setCode(1);
+        result.setMessage(msg);
+        result.setData(o);
+        return result;
+    }
+
     public static final BaseResult error(Integer code, String msg){
         BaseResult result=new BaseResult();
         result.setMessage(msg);

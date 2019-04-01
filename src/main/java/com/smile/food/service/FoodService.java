@@ -14,4 +14,6 @@ public interface FoodService {
 
     List<Food> findListByType(int type);
 
+    List<Food> searchFoodByName(String name);
+
 }

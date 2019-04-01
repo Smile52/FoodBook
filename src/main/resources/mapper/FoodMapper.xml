@@ -94,5 +94,12 @@
         select * from t_food
 
   </select>
+  <select id="findListByType" resultType="com.smile.food.model.Food">
+    select * from t_food where type=#{type}
+  </select>
+
+  <select id="searchFoodByName" resultType="com.smile.food.model.Food">
+    select * from t_food where  name like "%"#{foodName}"%"
+  </select>
 
 </mapper>

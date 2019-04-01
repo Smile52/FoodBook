@@ -10,10 +10,7 @@ import com.smile.food.utils.FoodUtils;
 import com.smile.food.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -27,6 +24,7 @@ public class FoodController {
 
     @Autowired
     FoodService mFoodService;
+
 
     /**
      * 多个图片和多个参数上传
@@ -69,7 +67,6 @@ public class FoodController {
             photoFile.transferTo(photoDest);
         }catch (Exception e){
             return ResultUtils.error(99,"上传失败");
-
         }
 
         List<Food.Material> materials=new ArrayList<>();
@@ -88,9 +85,6 @@ public class FoodController {
             material.setWeight(entity.getWeight()[i]);
             materials.add(material);
         }
-
-
-
 
         Food food=new Food();
         food.setAuthorid(1000);
@@ -120,6 +114,22 @@ public class FoodController {
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     @ResponseBody
     public Object findAllFood(){
+        List<Food> all = mFoodService.findAll();
+
         return ResultUtils.success(mFoodService.findAll());
     }
+
+    @RequestMapping(value = "/listByType/{type}",method = RequestMethod.GET)
+    @ResponseBody
+    public Object findListByType(@PathVariable("type") Integer type){
+        return ResultUtils.success(mFoodService.findListByType(type));
+    }
+
+    @RequestMapping(value = "/searchFood/{foodName}" , method = RequestMethod.GET)
+    @ResponseBody
+    public Object searchFoodByName(@PathVariable("foodName") String name){
+        return ResultUtils.success(mFoodService.searchFoodByName(name));
+    }
+
+
 }
