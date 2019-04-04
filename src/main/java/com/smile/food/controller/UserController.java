@@ -3,8 +3,10 @@ package com.smile.food.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.smile.food.annotation.RoleAnnotation;
 import com.smile.food.annotation.UserLoginToken;
 import com.smile.food.config.FoodConfig;
+import com.smile.food.config.UserConfig;
 import com.smile.food.entity.FoodInfoEntity;
 import com.smile.food.model.User;
 import com.smile.food.service.UserService;
@@ -91,11 +93,22 @@ public class UserController  {
         return ResultUtils.success(user);
     }
 
+    @RoleAnnotation(leave = UserConfig.LEAVE_ADMIN)
     @UserLoginToken
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(){
         return "admin";
     }
+
+
+    @RoleAnnotation(leave = UserConfig.LEAVE_NORMAL)
+    @UserLoginToken
+    @RequestMapping(value = "/admins", method = RequestMethod.GET)
+    @ResponseBody
+    public Object admins(){
+        return ResultUtils.success("权限通过");
+    }
+
 
 
 

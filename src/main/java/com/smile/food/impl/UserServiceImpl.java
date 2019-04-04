@@ -6,9 +6,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.smile.food.dao.RoleMapper;
 import com.smile.food.dao.UserMapper;
 import com.smile.food.enums.ResultEnums;
 import com.smile.food.exception.FoodException;
+import com.smile.food.model.Role;
 import com.smile.food.model.TokenModel;
 import com.smile.food.model.User;
 import com.smile.food.service.UserService;
@@ -27,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public int addUser(User user) {
@@ -58,13 +63,16 @@ public class UserServiceImpl implements UserService {
             Date date=new Date(System.currentTimeMillis()+ JwtUtils.EXPIRE_TIME);
             Algorithm algorithm=Algorithm.HMAC256(JwtUtils.TOKEN_SECRET);
 
-            String token= JWT.create().withClaim("userId",user.getUser_id())
+            String token= JWT.create().withClaim("id",user.getUser_id())
                     .withExpiresAt(date)
                     .sign(algorithm);
             user.setToken(token);
 
-            int i=userMapper.updateToken(user.getUser_id(), token);
-            if (i<1){
+           // int i=userMapper.updateToken(user.getUser_id(), token);
+            int id=userMapper.findTokenIdByUserId(user.getUser_id());
+            Role role=roleMapper.findRoleById(user.getRole_id());
+            user.setLeave(role.getLeave());
+            if (id==0){
                 TokenModel model=new TokenModel();
                 model.setToken(token);
                 model.setUser_id(user.getUser_id());
@@ -74,6 +82,7 @@ public class UserServiceImpl implements UserService {
                     return user;
                 }
             }else {
+                userMapper.updateToken(user.getUser_id(), token);
                 return user;
             }
         }else
@@ -102,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
             Map<String, Claim> claims = JwtUtils.verifyToken(token);
 
-            Claim userId = claims.get("userId");
+            Claim userId = claims.get("id");
             s=userId.asInt();
             if (null == userId || s==0) {
                 // token 校验失败, 抛出Token验证非法异常
@@ -112,8 +121,9 @@ public class UserServiceImpl implements UserService {
             throw new FoodException(ResultEnums.TOKEN_ERROR);
         }
 
-
-        return userMapper.findUserById(s);
+        User user=userMapper.findUserById(s);
+        user.setLeave(roleMapper.findRoleById(user.getRole_id()).getLeave());
+        return user;
 
     }
 

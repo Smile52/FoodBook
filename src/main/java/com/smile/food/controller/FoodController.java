@@ -6,16 +6,13 @@ import com.smile.food.dao.FoodMapper;
 import com.smile.food.entity.FoodInfoEntity;
 import com.smile.food.model.Food;
 import com.smile.food.service.FoodService;
+import com.smile.food.service.UploadService;
 import com.smile.food.utils.FoodUtils;
 import com.smile.food.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/food")
@@ -24,7 +21,8 @@ public class FoodController {
 
     @Autowired
     FoodService mFoodService;
-
+    @Autowired
+    UploadService mUploadService;
 
     /**
      * 多个图片和多个参数上传
@@ -34,70 +32,8 @@ public class FoodController {
     @PostMapping("/upload")
     @ResponseBody
     public Object upload(FoodInfoEntity entity){
-        System.out.println("name "+entity.getName());
-        System.out.println("des "+entity.toString());
-        MultipartFile[] files = entity.getFile_step();
-        List<String> stepImgs=new ArrayList<>();
-        String filePath = FoodConfig.IMAGE_PATH;
 
-        for (int i = 0; i <files.length ; i++) {
-            System.out.println("file Name "+files[i].getOriginalFilename());
-
-            String fileName = files[i].getOriginalFilename();
-            String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-
-            long currentTime=System.currentTimeMillis();
-
-            File dest = new File(filePath + currentTime+"."+suffix);
-            try {
-                files[i].transferTo(dest);
-                stepImgs.add(filePath + currentTime+"."+suffix);
-            }catch (Exception e){
-                return ResultUtils.error(99,"上传失败");
-            }
-        }
-        MultipartFile photoFile=entity.getPhoto();
-        String photoFileName=photoFile.getOriginalFilename();
-        String suffix = photoFileName.substring(photoFileName.lastIndexOf(".") + 1);
-        long currentTime=System.currentTimeMillis();
-        File photoDest=new File(filePath+currentTime+"photo."+ suffix);
-        String photoPath=filePath+currentTime+"photo."+ suffix;
-
-        try {
-            photoFile.transferTo(photoDest);
-        }catch (Exception e){
-            return ResultUtils.error(99,"上传失败");
-        }
-
-        List<Food.Material> materials=new ArrayList<>();
-        List<Food.Step> steps=new ArrayList<>();
-
-        for (int i = 0; i < stepImgs.size(); i++) {
-            Food.Step step=new Food.Step();
-            step.setPhoto(stepImgs.get(i));
-            step.setDes(entity.getDes_step()[i]);
-            steps.add(step);
-        }
-        String[] materialArray = entity.getMaterial();
-        for (int i = 0; i < materialArray.length; i++) {
-            Food.Material material=new Food.Material();
-            material.setName(materialArray[i]);
-            material.setWeight(entity.getWeight()[i]);
-            materials.add(material);
-        }
-
-        Food food=new Food();
-        food.setAuthorid(1000);
-        food.setDecription(entity.getDes());
-        food.setDifficulty(3);
-        food.setFinshtime("20分钟");
-        food.setName(entity.getName());
-        food.setStep(JSONObject.toJSONString(steps));
-        food.setMaterial(JSONObject.toJSONString(materials));
-
-        food.setType(FoodUtils.getFoodType(entity.getFood_type()));
-        food.setPhoto(photoPath);
-        if (mFoodService.addFood(food)==1){
+        if (mUploadService.uploadFood(entity)==1){
             return ResultUtils.success("添加成功");
         }else {
             return ResultUtils.error(99,"添加失败");
@@ -114,12 +50,11 @@ public class FoodController {
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     @ResponseBody
     public Object findAllFood(){
-        List<Food> all = mFoodService.findAll();
 
         return ResultUtils.success(mFoodService.findAll());
     }
 
-    @RequestMapping(value = "/listByType/{type}",method = RequestMethod.GET)
+    @RequestMapping(value = "/listByType/{type}", method = RequestMethod.GET)
     @ResponseBody
     public Object findListByType(@PathVariable("type") Integer type){
         return ResultUtils.success(mFoodService.findListByType(type));

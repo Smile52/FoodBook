@@ -24,4 +24,7 @@ public interface UserMapper {
     User findUserById(@Param("userId") Integer id);
 
     String findTokenByUserId(@Param("userId") Integer id);
+
+    Integer findTokenIdByUserId(@Param("userId") Integer id);
+
 }

@@ -85,8 +85,14 @@
     values (#{user_id,jdbcType=INTEGER},#{token ,jdbcType=VARCHAR})
   </insert>
   <update id="updateToken">
-    update t_token set token = #{token} where user_id= #{user_id}
+    update t_token set token = #{token,jdbcType=VARCHAR} where user_id= #{user_id,jdbcType=INTEGER}
+
+
   </update>
+
+  <select id="findTokenIdByUserId" resultType="java.lang.Integer">
+    select token_id from t_token where user_id=#{userId};
+  </select>
 
   <select id="findPwdByPhone" resultType="com.smile.food.model.User">
     select * from t_user where phone= #{phone}
@@ -99,5 +105,6 @@
   <select id="findTokenByUserId" resultType="java.lang.String">
     SELECT token from t_token where user_id =#{userId}
   </select>
+  
 
 </mapper>

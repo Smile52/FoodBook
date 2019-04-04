@@ -19,7 +19,8 @@ public class User implements Serializable {
     private String phone;
 
     private String token;
-
+    private Integer role_id;
+    private Integer leave;
 
 
     public String getUsername() {
@@ -76,5 +77,21 @@ public class User implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Integer getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(Integer leave) {
+        this.role_id = leave;
+    }
+
+    public Integer getLeave() {
+        return leave;
+    }
+
+    public void setLeave(Integer leave) {
+        this.leave = leave;
     }
 }

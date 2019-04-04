@@ -2,9 +2,11 @@ package com.smile.food.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.smile.food.annotation.RoleAnnotation;
 import com.smile.food.impl.HelloServiceImpl;
 import com.smile.food.service.HelloService;
 import com.smile.food.utils.JwtUtils;
+import com.smile.food.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,12 @@ public class HelloController {
         return "toApp";
     }
 
+    @RoleAnnotation(leave = 2)
+    @RequestMapping("/role")
+    @ResponseBody
+    public Object role(){
+        return ResultUtils.success("通过");
+    }
 
 
 }
