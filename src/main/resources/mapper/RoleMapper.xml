@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smile.food.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.smile.food.model.Role">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="leave" jdbcType="INTEGER" property="leave" />
+  </resultMap>
+  <insert id="insert" parameterType="com.smile.food.model.Role">
+    insert into t_role (id, name, leave
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{leave,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.smile.food.model.Role">
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="leave != null">
+        leave,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="leave != null">
+        #{leave,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <select id="findRoleById" resultType="com.smile.food.model.Role">
+        select * from t_role where id=#{roleId}
+
+  </select>
+</mapper>
